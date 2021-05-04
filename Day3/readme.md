@@ -1,4 +1,4 @@
-###Day3: Treasure island game
+### Day3: Treasure island game
 
 A simple python project to learn conditionals in python based on 100 days of code course on udemy
 
