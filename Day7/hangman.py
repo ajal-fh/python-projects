@@ -150,14 +150,25 @@ class Hangman:
 
 
     def addWord(self,word):
+        """
+        add a new word to the current list in the game as well as add the word to file for later use
+        """
 
         self.word_list.append(word)
         print("{} added".format(word))
         print("Current list: {}".format(self.word_list))
         #permanently add word to the list as well
         with open("words.txt",'a') as f:
-            f.write(word)
+            f.write(word+'\n')
 
+    def removeWord(self,word):
+        """
+        remove word from the current game list and remove the word from file
+        """
+        try:
+            self.word_list.remove(word)
+        except ValueError:
+            print("Given word is not in the list")
 
 if __name__ == '__main__':
     word_list = []
@@ -165,19 +176,28 @@ if __name__ == '__main__':
         for word in word_file:
             word = word.rstrip() #to remove the \n charachter
             word_list.append(word)
+    print(word_list)
 
     game = Hangman(word_list)
     quit = False
     while not quit:
         print(game.menu)
-        menu_input = int(input('Enter command [1-4]:'))
-        if(menu_input == 1):
-            game.playGame()
-        elif(menu_input == 4):
-            quit = True
-        elif(menu_input == 2):
-            word = input("Enter the word to be added: ")
-            word = word.upper()
-            game.addWord(word)
-        else:
-            pass
+        try:
+            menu_input = int(input('Enter command [1-4]:'))
+            if(menu_input == 1):
+                game.playGame()
+            elif(menu_input == 4):
+                quit = True
+            elif(menu_input == 2):
+                word = input("Enter the word to be added: ")
+                word = word.upper()
+                game.addWord(word)
+            elif(menu_input == 3):
+                word= input("Enter the word to be removed: ")
+                word = word.upper()
+                game.removeWord(word)
+            else:
+                pass
+        except ValueError:
+            print("Unknown command. Please enter [1-4]")
+
