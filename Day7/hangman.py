@@ -141,7 +141,8 @@ class Hangman:
             #leverage the fact that if there are no underlines the word is filled correctly
             # we stop the game after six steps with wrong words
             if(self.mistakes_made == 6 and self.current_guess.count('_') != 0):
-                print("Game Over!")
+                print("Game Over! The word was :{}".format(self.guess_word))
+                break
             elif(self.current_guess.count('_') == 0):
                 print(self.getCurrentStatus())
                 print("Congratulations!! You WON!!")
@@ -153,9 +154,19 @@ class Hangman:
         self.word_list.append(word)
         print("{} added".format(word))
         print("Current list: {}".format(self.word_list))
+        #permanently add word to the list as well
+        with open("words.txt",'a') as f:
+            f.write(word)
+
 
 if __name__ == '__main__':
-    game = Hangman(['BOAT','APPLE'])
+    word_list = []
+    with open("words.txt",'r',encoding='utf-8') as word_file:
+        for word in word_file:
+            word = word.rstrip() #to remove the \n charachter
+            word_list.append(word)
+
+    game = Hangman(word_list)
     quit = False
     while not quit:
         print(game.menu)
